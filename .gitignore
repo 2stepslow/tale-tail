@@ -113,3 +113,7 @@ ServerData
 data/
 *.zip
 *.zip.part*
+
+# Claude Code personal settings
+.claude/settings.local.json
+CLAUDE.local.md
