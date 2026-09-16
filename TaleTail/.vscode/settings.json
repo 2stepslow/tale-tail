@@ -61,6 +61,10 @@
         "*.meta": "yaml",
         "*.prefab": "yaml",
         "*.unity": "yaml",
+        // 유니티 WebGL 템플릿의 .js 는 빌드 시 전처리되는 파일이라
+        // #if / {{{ }}} 매크로가 들어있다. 자바스크립트로 파싱하면
+        // 구문 오류가 나므로 이 폴더만 검사 대상에서 제외한다.
+        "**/Assets/WebGLTemplates/**/*.js": "plaintext",
     },
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {

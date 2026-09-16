@@ -1,0 +1,175 @@
+/* TaleTail 그레이박스 레이아웃 — 중립 회색만 사용하고 이미지는 쓰지 않는다. */
+
+:root {
+  --bg: #f4f4f5;
+  --surface: #fafafa;
+  --line: #d4d4d8;
+  --slot: #e4e4e7;
+  --text: #27272a;
+  --muted: #71717a;
+  --topbar-h: 56px;
+  --drawer-w: 50vw;
+  --drawer-ms: 0.25s;
+}
+
+* { box-sizing: border-box }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
+  /* 드로어가 열리면 본문 영역을 오른쪽 절반으로 밀어 캔버스가 가려지지 않게 한다 */
+  transition: padding-left var(--drawer-ms) ease;
+}
+body.drawer-open { padding-left: var(--drawer-w) }
+
+/* ---- 상단 바 ---- */
+#topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  /* 1fr auto 1fr 로 나눠 버튼 폭과 무관하게 타이틀을 정확히 가운데 둔다 */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: var(--topbar-h);
+  padding: 0 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+#drawer-open { grid-column: 1; justify-self: start }
+#topbar-title {
+  grid-column: 2;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ---- 본문 ---- */
+#main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+/* 유니티 기본 스타일은 캔버스를 화면 중앙에 절대배치한다.
+   여기서는 상단 바·폼과 함께 문서 흐름에 놓아야 하므로 그 규칙들을 되돌린다. */
+#unity-container,
+#unity-container.unity-desktop,
+#unity-container.unity-mobile {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* 캔버스 폭은 CSS가 정하고 비율은 빌드 해상도를 따른다(드로어가 열리면 함께 줄어든다) */
+#unity-canvas,
+.unity-mobile #unity-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: {{{ WIDTH }}} / {{{ HEIGHT }}};
+  border: 1px solid var(--line);
+}
+
+#unity-footer,
+.unity-mobile #unity-footer { display: block; position: relative; height: 38px }
+/* 그레이박스 단계라 유니티 로고 이미지만 감춘다.
+   #unity-build-title 은 개발 빌드에서 프로파일러·Unload 버튼이 붙는 자리라 남겨둔다. */
+#unity-logo-title-footer { display: none }
+#unity-build-title { color: var(--muted); font-size: 13px }
+
+/* ---- 한 줄 일기 폼 ---- */
+#diary-form { display: flex; gap: 8px; margin-top: 16px }
+#diary-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+#diary-input::placeholder { color: var(--muted) }
+
+button {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover { background: var(--slot) }
+
+/* ---- 드로어 ---- */
+#drawer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  width: var(--drawer-w);
+  height: 100vh;
+  height: 100dvh;
+  padding: 12px 16px 24px;
+  overflow-y: auto;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  transform: translateX(-100%);
+  transition: transform var(--drawer-ms) ease;
+}
+#drawer.open { transform: translateX(0) }
+
+#drawer-header { display: flex; justify-content: flex-end; margin-bottom: 4px }
+#drawer-open,
+#drawer-close { width: 40px; padding: 0; font-size: 16px }
+
+.drawer-section { margin-bottom: 24px }
+.drawer-section h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* 빈 자리 표시용 박스 — 실제 위젯이 들어올 자리 */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: var(--slot);
+  color: var(--muted);
+  font-size: 13px;
+}
+.placeholder-calendar { min-height: 180px }
+.placeholder-chart { min-height: 120px }
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: var(--slot);
+}
+.badge {
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 12px;
+}
