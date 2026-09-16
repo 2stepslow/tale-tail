@@ -351,8 +351,9 @@ GameObject:
   - component: {fileID: 1731515873}
   - component: {fileID: 1731515872}
   - component: {fileID: 1731515874}
+  - component: {fileID: 1731515875}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Pet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,6 +445,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fa0c5895a004720930fce5d34a11f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpikeBridge
+--- !u!114 &1731515875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731515871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7bd32ef9c6864ac9907b87b9ca84c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PetStats
+  mood: 0
+  energy: 80
+  intimacy: 0
+  growthStage: 0
+  experience: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
