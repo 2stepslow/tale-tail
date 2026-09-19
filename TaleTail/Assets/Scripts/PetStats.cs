@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// 펫의 상태 수치를 보관한다.
@@ -43,6 +44,26 @@ public class PetStats : MonoBehaviour
     public int Experience => experience;
 
     /// <summary>
+    /// 수치가 바뀔 때마다 알린다.
+    /// PetStats는 누가 듣는지 모르고, 구독은 상태 머신 쪽에서 한다.
+    /// PetStats가 PetStateMachine을 직접 참조하면 서로 물고 있는 양방향 의존이 되어,
+    /// 둘 중 하나만 떼어내 쓰거나 테스트하기 어려워진다.
+    /// </summary>
+    public event UnityAction Changed;
+
+    /// <summary>
+    /// 성장 단계를 바꾼다. 언제 바꿀지는 PetStateMachine이 판단한다.
+    /// 필드를 public으로 열지 않은 이유: 아무 데서나 대입하면 "되돌아가지 않는다"는 규칙이 깨진다.
+    /// </summary>
+    public void SetGrowthStage(GrowthStage stage)
+    {
+        growthStage = stage;
+        // 여기서는 Changed를 쏘지 않는다.
+        // 성장 단계는 Idle/Happy/Sad/Tired 판정에 쓰이지 않고,
+        // 쏘면 Evaluate() → SetGrowthStage() → Evaluate() 로 곧장 되돌아온다.
+    }
+
+    /// <summary>
     /// 감정 판정 결과를 반영한다.
     /// 웹에서 SendMessage로 직접 부를 수 있도록 매개변수는 string 하나만 받는다.
     /// </summary>
@@ -80,6 +101,7 @@ public class PetStats : MonoBehaviour
         ClampValues();
 
         Debug.Log($"[PetStats] 감정 {mood} · 경험치 +{gained} (누적 {experience}) · 친밀도 {intimacy} · 기운 {energy}");
+        Changed?.Invoke();
     }
 
     /// <summary>하루를 건너뛴 경우 기운이 줄어든다.</summary>
@@ -89,6 +111,7 @@ public class PetStats : MonoBehaviour
         ClampValues();
 
         Debug.Log($"[PetStats] 하루 거름 · 기운 -{DayMissedCost} → {energy}");
+        Changed?.Invoke();
     }
 
     // 범위 보정은 이 메서드 한 곳에만 둔다.

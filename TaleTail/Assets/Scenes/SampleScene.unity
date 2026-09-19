@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 1731515872}
   - component: {fileID: 1731515874}
   - component: {fileID: 1731515875}
+  - component: {fileID: 1731515876}
   m_Layer: 0
   m_Name: Pet
   m_TagString: Untagged
@@ -462,6 +463,21 @@ MonoBehaviour:
   intimacy: 0
   growthStage: 0
   experience: 0
+--- !u!114 &1731515876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731515871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0f9e6380c954df2aee2fb93bb5c8dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PetStateMachine
+  tiredEnergyThreshold: 40
+  babyExperience: 30
+  adultExperience: 80
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
